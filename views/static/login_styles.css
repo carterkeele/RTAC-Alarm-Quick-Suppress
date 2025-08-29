@@ -1,0 +1,121 @@
+/* Carter Keele */
+/* July 2025 */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url("social-media-image.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.box{
+    border-radius: 20px;
+    width: 300px;
+    padding: 20px;
+    border: 3px solid yellow;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* box-shadow: 1px 1px 2px #ffc400ef; */
+    display: flex;
+    flex-direction: column;
+}
+
+.box h1 {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 700;
+    align-self: center;
+}
+
+.box input[type="text"], .box input[type="password"] {
+    font-size: 20px;
+    border: 0;
+    background: white;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 3px solid white;
+    padding: 7px 5px;
+    width: 220px;
+    outline: none;
+    /* color: white; */
+    border-radius: 24px;
+    transition: all .2s ease-in;
+}
+
+.box input[type="text"]:focus, .box input[type="password"]:focus {
+    width: 250px;
+    border-color: blue;
+}
+
+.wrapper {
+    /* border: 2px solid orangered; */
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+#btn {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 10px auto;
+    text-align: center;
+    border: 3px solid yellow;
+    padding: 5px 35px;
+    font-size: 18px;
+    color: white;
+    border-radius: 20px;
+    transition: all .2s ease-in-out;
+    cursor: pointer;
+}
+
+#btn:hover {
+    background-color: yellow;
+    color: black;
+}
+
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #4895ef;
+    transition: opacity 0.75s, visibility 0.75s;
+}
+
+.loader-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader::after {
+    content: "";
+    width: 75px;
+    height: 75px;
+    border: 15px solid #4895ef;
+    border-top-color: yellow;
+    border-bottom-color: yellow;
+    border-radius: 75%;
+    animation: loading 0.75s ease infinite;
+}
+
+@keyframes loading {
+    from {
+        transform: rotate(0turn);
+    }
+    to {
+        transform: rotate(1turn);
+    }
+}

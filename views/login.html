@@ -1,0 +1,53 @@
+<!-- Carter Keele -->
+<!-- July 2025 -->
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTAC Login</title>
+    <link rel="stylesheet" href="./static/login_styles.css"/>
+</head>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("login-form")
+        const loader = document.querySelector(".loader");
+
+        window.addEventListener("load", () => {
+            loader.classList.add("loader-hidden");
+
+            loader.addEventListener("transitionend", () => {
+                document.body.removeChild("loader");
+            })
+        })
+
+        form.addEventListener("submit", () => {
+            loader.classList.remove("loader-hidden");
+        })
+    })
+    
+</script>
+<body>
+    <div class="wrapper">
+        <form action="/" method="get" class="box" id="login-form">
+
+            <h1>RTAC Log-In</h1>
+
+            <div class="input">
+                <div class="ip">
+                    <input type="text" name="ip" class="form-control" placeholder="IP Address" required>
+                </div>
+                
+                <div class="password">
+                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                </div>
+            </div>
+
+            <input type="submit" id="btn" name="btn" value="Connect">
+
+        </form>
+        <div class="loader"></div>
+    </div>
+</body>
+</html>

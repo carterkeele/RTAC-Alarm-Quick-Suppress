@@ -1,0 +1,110 @@
+<!-- Carter Keele -->
+<!-- July 2025 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTAC Dashboard</title>
+    <link rel="stylesheet" href="./static/db_styles.css"/>
+</head>
+<script>    
+    function toggleDropdown(triggerElem) {
+    const panel = triggerElem.parentElement.querySelector('.dd_content');
+    panel.classList.toggle('show');
+
+    if (panel.classList.contains('show')) {
+      // Delay attaching the listener to avoid immediate closure
+      setTimeout(() => {
+        const outsideClickListener = (event) => {
+          const container = panel.closest('.dropdown');
+          if (!container.contains(event.target)) {
+            panel.classList.remove('show');
+            document.removeEventListener('click', outsideClickListener);
+          }
+        };
+        document.addEventListener('click', outsideClickListener);
+      }, 0); // runs after current event loop
+    }
+  }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const forms = document.querySelectorAll("form");
+        const loader = document.querySelector(".loader");
+
+        window.addEventListener("load", () => {
+            loader.classList.add("loader-hidden");
+
+            loader.addEventListener("transitionend", () => {
+                document.body.removeChild("loader");
+            })
+        })
+
+        forms.forEach((form) => {
+            form.addEventListener("submit", () => {
+                loader.classList.remove("loader-hidden");
+            })
+        })
+    })
+</script>
+<body>
+    <div class="wrapper">
+        <form method="POST" action="/dashboard" class="top_bar">
+            <h1>RTAC Alarm Control</h1>
+            <img src="/static/filter-icon.png" alt="Filter" class="filter-icon" onclick="toggleDropdown(this)">
+                <div class="dropdown">
+                    <div id="dd_content" class="dd_content">
+                        <input type="text" name="filterSearch" id="search" placeholder="Search" value="{{search}}">
+                        <label><input type="radio" name="filterOption" value="ShowAll"
+                            {{'checked' if radio in (None, 'ShowAll') else '' }}>All</label>
+                        <label><input type="radio" name="filterOption" value="ShowP"
+                            {{'checked' if radio == 'ShowP' else '' }}>Primary Only</label>
+                        <label><input type="radio" name="filterOption" value="ShowS"
+                            {{'checked' if radio == 'ShowS' else '' }}>Secondary Only</label>
+                        <input type="submit" class="filter" name="action" value="Filter">
+                        </div>
+                </div>
+            <input type="submit" class="disconnect" name="action" value="Disconnect">
+        </form>
+
+        <div class="alarm_box">
+                <h2>Active Alarms</h2>            
+            <form method="POST" action="/dashboard" class="active">
+                % if filter_applied and filtered_act != []:
+                    % for act_alarm in filtered_act:
+                        <label class="alarm_label"><input type="checkbox" name="checkbox" class="alarms" value="{{act_alarm}}">{{act_alarm}}</label><br>
+                    % end
+                        <input type="submit" class="suppress" name="action" value="Suppress">
+                % elif (not filter_applied) and (active_list != ['']):
+                    % for act_alarm in active_list:
+                        <label class="alarm_label"><input type="checkbox" name="checkbox" class="alarms" value="{{act_alarm}}">{{act_alarm}}</label><br>
+                    % end
+                        <input type="submit" class="suppress" name="action" value="Suppress">
+                % else:
+                    <h3>No Active Alarms</h3>
+                % end
+            </form>
+        </div>
+
+        <div class="alarm_box">
+            <h2>Suppressed Alarms</h2>
+            <form method="POST" action="/dashboard" class="suppressed">
+                % if filter_applied and filtered_sup != []:
+                    % for sup_alarm in filtered_sup:
+                        <label class="alarm_label"><input type="checkbox" name="checkbox" class="alarms" value="{{sup_alarm}}">{{sup_alarm}}</label><br>
+                    % end
+                        <input type="submit" class="clear" name="action" value="Clear">
+                % elif (not filter_applied) and (suppressed_list != ['']):
+                    % for sup_alarm in suppressed_list:
+                        <label class="alarm_label"><input type="checkbox" name="checkbox" class="alarms" value="{{sup_alarm}}">{{sup_alarm}}</label><br>
+                    % end
+                        <input type="submit" class="clear" name="action" value="Clear">
+                % else:
+                    <h3>No Suppressed Alarms</h3>
+                % end
+            </form>
+        </div>
+        <div class="loader"></div>
+    </div>
+</body>
+</html>
